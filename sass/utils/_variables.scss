@@ -1,0 +1,18 @@
+// color
+$color-blue: #3282F7;
+$color-green: #68D9A4;
+$color-orange: #ED6454;
+$color-grey01: #E7E7E7;
+$color-grey02: #C7BEBE;
+$color-white: #ffffff;
+$color-black: #000000;
+
+// typo
+$font-family-base: "Lato", sans-serif;
+$font-family-other: "Roboto", sans-serif;
+
+// breakpoints
+$breakpoints:(
+    tablets: 768px,
+    desktops: 1280px
+);
