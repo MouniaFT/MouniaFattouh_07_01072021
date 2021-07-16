@@ -1,0 +1,58 @@
+.card {
+    display: flex;
+    flex-direction: column;
+
+    &__header {
+        height: 178px;
+        background-color: $color-grey02;
+        border-radius: 5px 5px 0 0;
+    }
+
+    &__content {
+        background-color: $color-grey01;
+        padding: 20px 20px 40px;
+        flex: auto;
+        border-radius: 0 0 5px 5px;
+
+        &__heading {
+            font-size: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            .time {
+                font-weight: bold;
+                margin-left: 15px;
+                white-space: nowrap;
+                display: flex;
+                align-items: center;
+                
+                &::before {
+                    content: "";
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    background: url("../images/time.svg") no-repeat center / contain;
+                    margin-right: 7px;
+                }
+            }
+        }
+
+        &__text {
+            display: flex;
+            margin-top: 20px;
+            
+
+            .ingredients {
+                flex: 50%;
+                margin-right: 10px;
+            }
+
+            .preparation {
+                flex: 50%;
+                font-family: $font-family-other;
+            }
+        }
+
+    }
+}

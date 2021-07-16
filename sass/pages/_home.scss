@@ -1,0 +1,164 @@
+.search {
+    padding: 17px 0 25px;
+    &__form {
+        position: relative;
+        
+        &__input {
+            font-size: 18px;
+            width: 100%;
+            background-color: $color-grey01;
+            border: none;
+            border-radius: 5px;
+            padding: 24px;
+        }
+
+        &__icon {
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            background: url("../images/search.svg") no-repeat center / cover;
+            border: none;
+            background-color: $color-grey01;
+            position: absolute; 
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    }
+}
+
+.recipes {
+    .selectedTags{
+        display: flex;
+        flex-wrap: wrap;
+        .tag {
+            margin-bottom: 15px;
+        }
+    }
+
+    &__filters{
+        margin: 0 -10px;
+        .filters-bloc {
+            margin:5px 10px;
+            font-size: 18px;
+            color: $color-white;
+            border-radius: 5px;
+            padding: 24px 24px;
+            cursor: pointer;
+            position: relative;
+            
+            button{
+                border: none;
+                font-weight: bold;
+                font-size: 18px;
+                color: $color-white;
+                background-color: transparent;
+                text-align: left;
+                cursor: pointer;
+                min-width: 132px;
+                padding: 0;
+            }
+
+            input{
+                border: none;
+                background-color: transparent;
+                font-weight: bold;
+                font-size: 18px;
+                color: $color-white;
+                padding: 3px 0;
+                margin-bottom: 26px;
+                width: 100%;
+                &::placeholder {
+                    opacity: 0.5;
+                    color: $color-white;
+                }
+            }
+
+            ul {
+                display: flex;
+                flex-wrap: wrap;
+                margin: 0 -10px;
+
+                li {
+                    margin: 0 10px;
+                    width: calc(100% / 3 - 20px);
+                    text-transform: capitalize;
+                 }
+            }
+
+            &::after {
+                content:"";
+                display: inline-block;
+                width: 16px;
+                height: 10px;
+                background: url("../images/chevron-bottom.svg") no-repeat center / cover;
+                position: absolute;
+                top: 30px;
+                right: 22px;
+                transition: 0.3s;
+            }
+
+            &.filters-ingredients {
+                background-color: $color-blue;
+
+                .filter-list {
+                    display: none;
+                 }
+            }
+
+            &.filters-appliance {
+                background-color: $color-green;
+               
+                .filters-appliance-list {
+                   display: none;
+                }
+            }
+
+            &.filters-ustensils {
+                background-color: $color-orange;
+                
+                .filters-ustensils-list {
+                    display: none;
+                }
+            }
+
+            &.active {
+                &::after{
+                    transform: rotate(180deg);
+                }
+
+                button {
+                    display: none;
+                }
+                .filter-list{
+                    display: block;
+                }
+            }
+        }
+    }
+
+    &__cards {
+        margin: 77px -25px 20px;
+
+        .card {
+            margin: 0 25px 50px;
+        }
+    }
+
+    @include desktops {
+        &__filters {
+            display: flex;
+            align-items: flex-start;
+        }   
+
+        &__cards {
+            display: flex;
+            flex-wrap: wrap;
+    
+            .card {
+                width: calc(100% / 3 - 50px);
+            }
+        }
+    }
+}

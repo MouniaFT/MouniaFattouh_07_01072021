@@ -10,8 +10,64 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <header class="header">
+        <div class="container">
+            <a href="#" class="header__logo"><img src="./images/logo.svg" alt="logo"></a>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <section class="search">
+                <form class="search__form">
+                    <label class="search__form__label" for="search">Recherche</label>
+                    <input class="search__form__input" id="search" type="text" placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette">
+                    <button class="search__form__icon" type="submit"></button>
+                </form>
+            </section>
+            <section class="recipes">
+                <div class="selectedTags">
+
+                </div>
+                <div class="recipes__filters">
+                    <div class="filters-bloc filters-ingredients">
+                        <button class="filters-ingredients-btn" id="ingredientBtn">Ingredients</button>
+                        <div class="filter-list filters-ingredients-list" id="ingredientFilter">
+                            <label for="ingredients">Ingredients</label>
+                            <input id="ingredients" type="text" placeholder="Rechercher un ingrédient">
+                            <ul id="ingredientList">
+                                <!--   Afficher la liste des ingrédients   -->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="filters-bloc filters-appliance">
+                        <button class="filters-appliance-btn">Appareil</button>
+                        <div class="filter-list filters-appliance-list">
+                            <label for="appliance">Appareil</label>
+                            <input id="appliance" type="text" placeholder="Rechercher un appareil">
+                            <ul id="applianceList">
+                                <!--   Afficher la liste des appareils   -->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="filters-bloc filters-ustensils">
+                        <button class="filters-ustensils-btn">Ustensiles</button>
+                        <div class="filter-list filters-ustensils-list">
+                            <label for="ustensils">Ustensiles</label>
+                            <input id="ustensils" type="text" placeholder="Rechercher un ustensile">
+                            <ul id="ustensilsList">
+                                <!--   Afficher la liste des ustensiles   -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <ul id="recipeCard" class="recipes__cards">
+                   <!--   Afficher les cards de recettes grace au javascript  -->
+                </ul>
+            </section>
+        </div>
+    </main>
 
 
-
+<script src="./script.js" type="text/javascript"></script>
 </body>
 </html>
