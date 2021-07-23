@@ -227,7 +227,7 @@ label {
   font-size: 18px;
   color: #ffffff;
   padding: 3px 0;
-  margin-bottom: 26px;
+  margin-bottom: 20px;
   width: 100%;
 }
 .recipes__filters .filters-bloc input::placeholder {
@@ -237,10 +237,10 @@ label {
 .recipes__filters .filters-bloc ul {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 -10px;
+  margin-left: -10px;
 }
 .recipes__filters .filters-bloc ul li {
-  margin: 0 10px;
+  margin: 5px 10px;
   width: calc(100% / 3 - 20px);
   text-transform: capitalize;
 }
@@ -259,19 +259,25 @@ label {
   background-color: #3282F7;
 }
 .recipes__filters .filters-bloc.filters-ingredients .filter-list {
+  background-color: #3282F7;
   display: none;
 }
 .recipes__filters .filters-bloc.filters-appliance {
   background-color: #68D9A4;
 }
 .recipes__filters .filters-bloc.filters-appliance .filters-appliance-list {
+  background-color: #68D9A4;
   display: none;
 }
 .recipes__filters .filters-bloc.filters-ustensils {
   background-color: #ED6454;
 }
 .recipes__filters .filters-bloc.filters-ustensils .filters-ustensils-list {
+  background-color: #ED6454;
   display: none;
+}
+.recipes__filters .filters-bloc.active {
+  min-width: 667px;
 }
 .recipes__filters .filters-bloc.active::after {
   transform: rotate(180deg);
@@ -281,6 +287,11 @@ label {
 }
 .recipes__filters .filters-bloc.active .filter-list {
   display: block;
+  position: absolute;
+  left: 0;
+  padding-left: 20px;
+  padding-bottom: 20px;
+  border-radius: 5px;
 }
 .recipes__cards {
   margin: 77px -25px 20px;

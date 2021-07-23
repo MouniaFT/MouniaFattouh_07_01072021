@@ -67,7 +67,7 @@
                 font-size: 18px;
                 color: $color-white;
                 padding: 3px 0;
-                margin-bottom: 26px;
+                margin-bottom: 20px;
                 width: 100%;
                 &::placeholder {
                     opacity: 0.5;
@@ -78,10 +78,10 @@
             ul {
                 display: flex;
                 flex-wrap: wrap;
-                margin: 0 -10px;
+                margin-left: -10px;
 
                 li {
-                    margin: 0 10px;
+                    margin: 5px 10px;
                     width: calc(100% / 3 - 20px);
                     text-transform: capitalize;
                  }
@@ -103,6 +103,7 @@
                 background-color: $color-blue;
 
                 .filter-list {
+                    background-color: $color-blue;
                     display: none;
                  }
             }
@@ -111,6 +112,7 @@
                 background-color: $color-green;
                
                 .filters-appliance-list {
+                   background-color: $color-green;
                    display: none;
                 }
             }
@@ -119,20 +121,28 @@
                 background-color: $color-orange;
                 
                 .filters-ustensils-list {
+                    background-color: $color-orange;
                     display: none;
                 }
             }
 
             &.active {
-                &::after{
+                min-width: 667px;
+                &::after {
                     transform: rotate(180deg);
                 }
 
                 button {
                     display: none;
                 }
-                .filter-list{
+
+                .filter-list {
                     display: block;
+                    position: absolute;
+                    left: 0;
+                    padding-left: 20px;
+                    padding-bottom: 20px;
+                    border-radius: 5px;
                 }
             }
         }

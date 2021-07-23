@@ -23,6 +23,7 @@ const toggleBtnsFilter = (e) => {
     filterContainer.forEach(element => {
         if (element.contains(e.target)) {
             element.classList.add('active')
+            elem.style.zIndex = 0
         } else {
             element.classList.remove('active')
         }
@@ -152,7 +153,7 @@ const showAppliance = async() => {
                 `
             )).join('')
     )
-    
+
     // récupérer l'appareil cliquer et l'ajouter au tableau tagsSelected
     const tags = document.querySelectorAll(".filters-bloc li.li-appliance");
     tags.forEach(tag => {
