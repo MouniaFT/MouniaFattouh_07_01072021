@@ -30,7 +30,7 @@ const toggleBtnsFilter = (e) => {
 } 
 document.body.addEventListener("click",toggleBtnsFilter);
 
-
+// Afficher le tag 
 let tagsSelected = []
 const addTag = (tag, type) => {
     if (type == "ingredients") {
@@ -60,11 +60,12 @@ const addTag = (tag, type) => {
     
 }
 
+//Supprimer le tag 
 const removeTag = (tag) => {
-    console.log(tag,tagsSelected)
     tagsSelected = tagsSelected.filter(tagSelected => tagSelected.label !== tag.innerText) 
-    console.log("new",tagsSelected)
-    tagsSelected.map(tagSelected => (
+
+    tagsSelected
+        .map(tagSelected => (
         `
         <span class="tag" style="background:${tagSelected.background};">${tagSelected.label}</span>
         `
@@ -80,80 +81,128 @@ const renderContent = () => {
 }
 
 
+
+
 // Afficher la liste des ingredients
+const uniqueIngredientsSet = new Set();
 const showIngredients = async() => {
     await fetchRecipes();
-    ingredientList.innerHTML = (
-            // .map sur les recttes filtrées
-            recipes
-                .map(recipe => (
-                    recipe.ingredients
-                    .map(ingredientObject => (
-                        `
-                        <li class="li-ingredient">${ingredientObject.ingredient}</li>
-                       
-                        `
-                    )).join('')
-                )).join('')// retirer les doublons des ingredients
-        )
+        recipes
+            .map(recipe => (
+                recipe.ingredients
+                    // enlever les doublons des ingredients 
+                    .filter(ingredientObject => {
+                        const isPresentInSet = uniqueIngredientsSet.has(ingredientObject.ingredient);
+                        uniqueIngredientsSet.add(ingredientObject.ingredient)
+                        
+                        return !isPresentInSet;
+                    })
+            )).join('')  
 
-        // récupérer l'ingredient cliquer et l'ajouter au tableau tagsSelected
-        const tags = document.querySelectorAll(".filters-bloc li.li-ingredient");
-        tags.forEach(tag => {
-            tag.addEventListener("click", () => {
-                addTag(tag.innerText, "ingredients");
-                tag.remove()
-            });
+    ingredientList.innerHTML = (
+        [...uniqueIngredientsSet]
+            .sort((a, b) => {
+
+                return a.localeCompare(b)
+            })
+            .map(ingredient => (
+                `
+                <li class="li-ingredient">${ingredient}</li>
+                
+                ` 
+            )).join('')
+    )
+        
+    // récupérer l'ingredient cliquer et l'ajouter au tableau tagsSelected
+    const tags = document.querySelectorAll(".filters-bloc li.li-ingredient");
+    tags.forEach(tag => {
+        tag.addEventListener("click", () => {
+            addTag(tag.innerText, "ingredients");
+            tag.remove()// supprimer le tag afficher de la liste des ingredients
         });
+    });
 }
 showIngredients();
 
 
+
+
 // Afficher la liste des appareils
+const uniqueAppliancesSet = new Set();
 const showAppliance = async() => {
     await fetchRecipes();
-
-    applianceList.innerHTML = (
-        
         recipes
-            .map(recipe => (
+            // enlever les doublons des appareils 
+            .filter( recipe => {
+                const isPresentInSet = uniqueAppliancesSet.has(recipe.appliance);
+                uniqueAppliancesSet.add(recipe.appliance)
+        
+                return !isPresentInSet;
+            })
+    
+    applianceList.innerHTML = (
+        [...uniqueAppliancesSet]
+            .sort((a, b) => {
+                    
+                return a.localeCompare(b)
+            })
+            .map(appliance => (
                 `
-                <li class="li-appliance">${recipe.appliance}</li>
+                <li class="li-appliance">${appliance}</li>
                 `
             )).join('')
     )
-    // récupérer l'ingredient cliquer et l'ajouter au tableau tagsSelected
+    
+    // récupérer l'appareil cliquer et l'ajouter au tableau tagsSelected
     const tags = document.querySelectorAll(".filters-bloc li.li-appliance");
     tags.forEach(tag => {
         tag.addEventListener("click", () => {
             addTag(tag.innerText, "appareils");
-            tag.remove()
+            tag.remove()// supprimer le tag afficher de la liste des appareils
         });
     });
 }
 showAppliance();
 
+
+
+
 // Afficher la liste des ustensiles
+const uniqueUstensilsSet = new Set();
 const showUstensils = async() => {
     await fetchRecipes();
 
-    ustensilsList.innerHTML = (
-        
         recipes
             .map(recipe => (
-                recipe.ustensils.map(element => (
-                `
-                <li class="li-ustensil">${element}</li>
-                `
-                )).join('')
+                recipe.ustensils
+                    // enlever les doublons des ustensiles 
+                    .filter( ustensil => {
+                        const isPresentInSet = uniqueUstensilsSet.has(ustensil);
+                        uniqueUstensilsSet.add(ustensil)
+                        
+                        return !isPresentInSet;
+                    })
             )).join('')
+
+    ustensilsList.innerHTML = (
+        [...uniqueUstensilsSet]
+            .sort((a, b) => {
+                
+                return a.localeCompare(b)
+            })
+            .map(ustensil => (
+                `
+                <li class="li-ustensil">${ustensil}</li>
+                `
+            )).join("")
     )
-    // récupérer l'ingredient cliquer et l'ajouter au tableau tagsSelected
+
+    // récupérer l'ustensil cliquer et l'ajouter au tableau tagsSelected
     const tags = document.querySelectorAll(".filters-bloc li.li-ustensil");
     tags.forEach(tag => {
         tag.addEventListener("click", () => {
             addTag(tag.innerText, "ustensils");
-            tag.remove()
+            tag.remove()// supprimer le tag afficher de la liste des ustensiles
         });
     });
 }
