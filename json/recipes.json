@@ -1288,7 +1288,7 @@
               "quantity": 1
           },
           {
-              "ingredient": "Coulis de tomates",
+              "ingredient": "Coulis de tomate",
               "quantity": 20,
               "unit": "cl"
           },
@@ -1659,7 +1659,7 @@
       "servings": 4,
       "ingredients": [
           {
-              "ingredient": "Bananes",
+              "ingredient": "Banane",
               "quantity": 2
           },
           {

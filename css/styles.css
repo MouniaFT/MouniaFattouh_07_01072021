@@ -292,6 +292,7 @@ label {
   padding-left: 20px;
   padding-bottom: 20px;
   border-radius: 5px;
+  width: 100%;
 }
 .recipes__cards {
   margin: 77px -25px 20px;
