@@ -355,5 +355,5 @@ const showRecipes = () => {
                 </li>
                 `
             )).join('')
-    ) : "<p>pas de recettes</p>";
+    ) : "<p>L’interface affiche : aucune recette ne correspond à votre critère.... vous pouvez chercher 'tarte aux pommes', 'poisson', etc.</p>";
 };
