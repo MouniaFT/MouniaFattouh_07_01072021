@@ -22,7 +22,7 @@ let reinitialisedUstensils = [];
 let tagsSelectedIngredientLabel = [];
 let tagsSelectedApplianceLabel = [];
 let tagsSelectedUstensilLabel = [];
-let test = "add";
+let action = "add";
 
 // // API REQUEST
 const fetchRecipes = async() => {
@@ -36,21 +36,11 @@ const fetchRecipes = async() => {
 };
 fetchRecipes();
 
-// const filterRecipes = () => {
-//     recipes.forEach((recipe) => {
-//         if (!recipe.description.includes('marecherche')) { // condition de filtrage : si match la recherche et les filtres sélectionnés
-
-//             const monélémentàretirer = document.getElementById(recipe.id)
-//             document.body.removeChild(monélémentàretirer)
-//         }
-//     })
-// }
 
 // Filtrer les recttes par rapport à la recherche principal.
 let searchMainValue = "";
 searchMain.addEventListener("input", () => {
     searchMainValue = searchMain.value.toLowerCase();
-    // showRecipes();
     if (searchMainValue.length >= 3) {
         recipesFiltred = reinitialisedRecipes.filter(recipe => (
             recipe.name.toLowerCase().includes(searchMainValue)
@@ -65,15 +55,14 @@ searchMain.addEventListener("input", () => {
         recipes = reinitialisedRecipes;
     }
     showRecipes();
-    // filterRecipes();
     recipesIngredientsArray();
     recipesAppliancesArray();
     recipesUstensilsArray();
 })
 
 // Filter les recettes par rapport aux tags.
-const filterRecipesByTags = (tagLabel, type, test) => {
-    if ( test == "add") {
+const filterRecipesByTags = (tagLabel, type, action) => {
+    if ( action == "add") {
         if (type == "ingredients") {
             tagsSelectedIngredientLabel.push(tagLabel.toLowerCase());
         } else if (type == "appareils") {
@@ -81,7 +70,7 @@ const filterRecipesByTags = (tagLabel, type, test) => {
         } else if (type == "ustensils") {
             tagsSelectedUstensilLabel.push(tagLabel.toLowerCase());
         }
-    } else if ( test == "remove") {
+    } else if ( action == "remove") {
         if (type == "ingredients") {
             tagsSelectedIngredientLabel = tagsSelectedIngredientLabel.filter(tag => tag !== tagLabel.toLowerCase());
         } else if (type == "appareils") {
