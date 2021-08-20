@@ -116,34 +116,45 @@ const removeTag = (tag) => {
 }
 
 
-// la recherche principal 
+// la recherche principal. 
 let searchMainValue ;
 searchMain.addEventListener("input", (e) => {
     searchMainValue = searchMain.value.toLowerCase();
     
     if ( searchMainValue.length >= 3 || searchMainValue.length === 0 ) {
+        showRecipes();// J'affiche tous les recettes et après je supprime les recettes qui ne correspondent pas à la condition.
         filterRecipes(searchMainValue);
-        showRecipes();
         showIngredients();
         showAppliance();
         showUstensils();
     }  
 })
 
-
-
 // Filter les recettes par rapport à la valeur de la recherche principal
 const filterRecipes = (value) => {
+    recipes.forEach((recipe) => {
+        if ((!recipe.name.toLowerCase().includes(value)) && (!recipe.description.toLowerCase().includes(value)) && (!recipe.ingredients.some(objet => objet.ingredient.toLowerCase().includes(value)))) {
+            // Supprimer les recettes qui correspondent pas à la recherche.
+            const recipeToRemove = document.getElementById(recipe.id);
+            document.getElementById('recipeCard').removeChild(recipeToRemove);
+        } 
+    })
+    console.log(recipes)
+};
+
+
+
+// const filterRecipes = (value) => {
     
-    // utiliser .filter pour filtrer les recettes
-    recipesFiltered = recipes.filter( recipe => (
-        recipe.name.toLowerCase().includes(value) 
-        ||
-        recipe.description.toLowerCase().includes(value)
-        ||
-        recipe.ingredients.some(objet => objet.ingredient.toLowerCase().includes(value))
-    ));
-}
+//     // utiliser .filter pour filtrer les recettes
+//     recipesFiltered = recipes.filter( recipe => (
+//         recipe.name.toLowerCase().includes(value) 
+//         ||
+//         recipe.description.toLowerCase().includes(value)
+//         ||
+//         recipe.ingredients.some(objet => objet.ingredient.toLowerCase().includes(value))
+//     ));
+// }
 
 // filtrer les recettes par rapport à la recherche par tag 
 const filtreRecipesByTag = () => {
@@ -171,8 +182,7 @@ const filtreRecipesByTag = () => {
 
 
 //************************  Afficher les recettes  ************************//
-const showRecipes = async() => {
-
+const showRecipes = () => {
     let recipesDisplayed = recipesFiltered || recipes;
     recipeCard.innerHTML = (
         // recette filtrer 
@@ -182,7 +192,7 @@ const showRecipes = async() => {
             : recipesDisplayed
             .map(recipe => (
                 `
-                <li class="card">
+                <li class="card" id="${recipe.id}">
                     <div class="card__header"></div>
                     <div class="card__content">
                         <div class="card__content__heading">
@@ -215,7 +225,7 @@ showRecipes();
 
 //************************  Afficher la liste des ingredients  ************************//
 let uniqueIngredientsArray
-const showIngredients = async() => {
+const showIngredients = () => {
     const searchIngredientValue = searchIngredient.value.toLowerCase();
     
     recipesDisplayed = recipesFiltered === undefined ? recipes : recipesFiltered;
@@ -283,7 +293,7 @@ searchIngredient.addEventListener("input", showIngredients);
 
 //************************  Afficher la liste des appareils  ************************//
 let uniqueAppliancesArray
-const showAppliance = async() => {
+const showAppliance = () => {
     const searchApplianceValue = searchAppliance.value.toLowerCase();
 
     recipesDisplayed = recipesFiltered === undefined ? recipes : recipesFiltered;
@@ -347,8 +357,7 @@ searchAppliance.addEventListener("input", showAppliance);
 
 //************************  Afficher la liste des ustensiles  ************************//
 let uniqueUstensilsArray;
-const showUstensils = async() => {
-    
+const showUstensils = () => {
     const searchUstensilValue = searchUstensil.value.toLowerCase();
 
     recipesDisplayed = recipesFiltered === undefined ? recipes : recipesFiltered;
