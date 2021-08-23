@@ -1,4 +1,4 @@
-// Cibler les élements
+// Cibler les élements.
 
 const recipeCard = document.getElementById('recipeCard');
 const ingredientList = document.getElementById('ingredientList');
@@ -14,19 +14,18 @@ const searchUstensil = document.getElementById('ustensils');
 let recipes = [];
 let recipesDisplayed = [];
 let recipesFiltered = [];
+let searchMainValue ;
 
 // // API REQUEST
 const fetchRecipes = async() => {
     recipes = await fetch('./json/recipes.json').then(res => res.json());
-    
     recipesFiltered = [...recipes];
     showRecipes();
 };
 fetchRecipes();
 
 
-
-// Ouvrir ou fermer le filtre par Ingredient, Appareil ou Ustensiles
+// Ouvrir ou fermer le filtre par Ingredient, Appareil ou Ustensiles.
 const filterContainer = document.querySelectorAll(".filters-bloc");
 const toggleBtnsFilter = (e) => {
     filterContainer.forEach(element => {
@@ -43,11 +42,11 @@ const toggleBtnsFilter = (e) => {
             showUstensils();
         }
     });
-} 
+}; 
 document.body.addEventListener("click",toggleBtnsFilter);
 
 
-// Ajouter un tag au dessus du filtre ingredients, appareils, ustensils
+// Ajouter un tag au dessus du filtre ingredients, appareils, ustensils.
 let tagsIngredientsSelected = [];
 let tagsAppliancesSelected = [];
 let tagsUstensilsSelected = [];
@@ -61,7 +60,7 @@ const addTag = (tag, type) => {
         tagsUstensilsSelected.push({label:tag, background:"#ED6454"});
     }
     
-    // Afficher le tag au dessus du filtre ingredients, appareils, ustensils 
+    // Afficher le tag au dessus du filtre ingredients, appareils, ustensils. 
     const tagsIngredientsHtml = tagsIngredientsSelected 
             .map(tagSelected => (
                 `
@@ -86,77 +85,65 @@ const addTag = (tag, type) => {
             ${tagsAplliancesHtml}
             ${tagsUstensilsHtml}
             `;
-
     filtreRecipesByTag();
     showRecipes();
     showIngredients();
     showAppliance();
     showUstensils();
-}
+};
 
 
-// Supprimer le tag sélectionné et filtrer le tableau des tags Selected 
+// Supprimer le tag sélectionné et filtrer le tableau des tags Selected. 
 const removeTag = (tag) => {
     tagsIngredientsSelected = tagsIngredientsSelected.filter(tagSelected => tagSelected.label !== tag.innerText);
     tagsAppliancesSelected = tagsAppliancesSelected.filter(tagSelected => tagSelected.label !== tag.innerText);
     tagsUstensilsSelected = tagsUstensilsSelected.filter(tagSelected => tagSelected.label !== tag.innerText);
 
     tag.remove();
-    recipesFiltered = recipes;
-
     if (tagsIngredientsSelected.length === 0  && tagsAppliancesSelected.length === 0 && tagsUstensilsSelected.length === 0) {
-        searchMain.value = "";
+         searchMainValue  = "";
+         searchMain.value = "";
     }
- 
+
+    recipesFiltered = searchMainValue ? recipes.filter( recipe => (
+        recipe.name.toLowerCase().includes(searchMainValue) 
+        ||
+        recipe.description.toLowerCase().includes(searchMainValue)
+        ||
+        recipe.ingredients.some(objet => objet.ingredient.toLowerCase().includes(searchMainValue))
+    )): recipes;
     filtreRecipesByTag();
     showRecipes();
     showIngredients();
     showAppliance();
     showUstensils();
-}
+};
 
 
 // la recherche principal. 
-let searchMainValue ;
-searchMain.addEventListener("input", (e) => {
+searchMain.addEventListener("input", () => {
     searchMainValue = searchMain.value.toLowerCase();
     
     if ( searchMainValue.length >= 3 || searchMainValue.length === 0 ) {
         showRecipes();// J'affiche tous les recettes et après je supprime les recettes qui ne correspondent pas à la condition.
-        filterRecipes(searchMainValue);
+        // Filter les recettes par rapport à la valeur de la recherche principal.
+        recipes.forEach((recipe) => {
+            if ((!recipe.name.toLowerCase().includes(searchMainValue)) && (!recipe.description.toLowerCase().includes(searchMainValue)) && (!recipe.ingredients.some(objet => objet.ingredient.toLowerCase().includes(searchMainValue)))) {
+                // Supprimer les recettes qui correspondent pas à la recherche.
+                const recipeToRemove = document.getElementById(recipe.id);
+                if (recipeToRemove !== null) {
+                    document.getElementById('recipeCard').removeChild(recipeToRemove);
+                }
+            } 
+        })
         showIngredients();
         showAppliance();
         showUstensils();
     }  
-})
-
-// Filter les recettes par rapport à la valeur de la recherche principal
-const filterRecipes = (value) => {
-    recipes.forEach((recipe) => {
-        if ((!recipe.name.toLowerCase().includes(value)) && (!recipe.description.toLowerCase().includes(value)) && (!recipe.ingredients.some(objet => objet.ingredient.toLowerCase().includes(value)))) {
-            // Supprimer les recettes qui correspondent pas à la recherche.
-            const recipeToRemove = document.getElementById(recipe.id);
-            document.getElementById('recipeCard').removeChild(recipeToRemove);
-        } 
-    })
-    console.log(recipes)
-};
+});
 
 
-
-// const filterRecipes = (value) => {
-    
-//     // utiliser .filter pour filtrer les recettes
-//     recipesFiltered = recipes.filter( recipe => (
-//         recipe.name.toLowerCase().includes(value) 
-//         ||
-//         recipe.description.toLowerCase().includes(value)
-//         ||
-//         recipe.ingredients.some(objet => objet.ingredient.toLowerCase().includes(value))
-//     ));
-// }
-
-// filtrer les recettes par rapport à la recherche par tag 
+// filtrer les recettes par rapport à la recherche par tag.
 const filtreRecipesByTag = () => {
     const tagsIngredientsLabelArray = tagsIngredientsSelected
                             .map(tagSelected => tagSelected.label.toLowerCase());
@@ -177,7 +164,7 @@ const filtreRecipesByTag = () => {
         tagsUstensilsLabelArray.every(tag => recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(tag)))
         
     ));
-}
+};
 
 
 
@@ -185,7 +172,6 @@ const filtreRecipesByTag = () => {
 const showRecipes = () => {
     let recipesDisplayed = recipesFiltered || recipes;
     recipeCard.innerHTML = (
-        // recette filtrer 
         recipesDisplayed.length === 0 
             ? `<div>Aucune recette ne correspond à votre critère… vous pouvez
             chercher « tarte aux pommes », « poisson », etc.</div>` 
@@ -221,14 +207,24 @@ const showRecipes = () => {
 showRecipes();
 
 
-
-
 //************************  Afficher la liste des ingredients  ************************//
 let uniqueIngredientsArray
 const showIngredients = () => {
     const searchIngredientValue = searchIngredient.value.toLowerCase();
-    
-    recipesDisplayed = recipesFiltered === undefined ? recipes : recipesFiltered;
+
+    recipesFiltered = (tagsIngredientsSelected.length === 0 && tagsAppliancesSelected.length === 0 && tagsUstensilsSelected.length === 0)
+    ? recipes
+    : recipesFiltered;
+
+    recipesFiltered = searchMainValue && tagsIngredientsSelected.length === 0 && tagsAppliancesSelected.length === 0 && tagsUstensilsSelected.length === 0? recipes.filter( recipe => (
+        recipe.name.toLowerCase().includes(searchMainValue) 
+        ||
+        recipe.description.toLowerCase().includes(searchMainValue)
+        ||
+        recipe.ingredients.some(objet => objet.ingredient.toLowerCase().includes(searchMainValue))
+    )): recipesFiltered;
+ 
+    recipesDisplayed = recipesFiltered ||  recipes ;
     
     uniqueIngredientsArray = recipesDisplayed
         .map(recipe => recipe.ingredients
@@ -296,6 +292,18 @@ let uniqueAppliancesArray
 const showAppliance = () => {
     const searchApplianceValue = searchAppliance.value.toLowerCase();
 
+    recipesFiltered = (tagsIngredientsSelected.length === 0 && tagsAppliancesSelected.length === 0 && tagsUstensilsSelected.length === 0)
+    ? recipes
+    : recipesFiltered;
+
+    recipesFiltered = searchMainValue && tagsIngredientsSelected.length === 0 && tagsAppliancesSelected.length === 0 && tagsUstensilsSelected.length === 0 ? recipes.filter( recipe => (
+        recipe.name.toLowerCase().includes(searchMainValue) 
+        ||
+        recipe.description.toLowerCase().includes(searchMainValue)
+        ||
+        recipe.ingredients.some(objet => objet.ingredient.toLowerCase().includes(searchMainValue))
+    )): recipesFiltered;
+
     recipesDisplayed = recipesFiltered === undefined ? recipes : recipesFiltered;
         
     uniqueAppliancesArray = recipesDisplayed
@@ -359,6 +367,18 @@ searchAppliance.addEventListener("input", showAppliance);
 let uniqueUstensilsArray;
 const showUstensils = () => {
     const searchUstensilValue = searchUstensil.value.toLowerCase();
+
+    recipesFiltered = (tagsIngredientsSelected.length === 0 && tagsAppliancesSelected.length === 0 && tagsUstensilsSelected.length === 0)
+    ? recipes
+    : recipesFiltered;
+
+    recipesFiltered = searchMainValue && tagsIngredientsSelected.length === 0 && tagsAppliancesSelected.length === 0 && tagsUstensilsSelected.length === 0 ? recipes.filter( recipe => (
+        recipe.name.toLowerCase().includes(searchMainValue) 
+        ||
+        recipe.description.toLowerCase().includes(searchMainValue)
+        ||
+        recipe.ingredients.some(objet => objet.ingredient.toLowerCase().includes(searchMainValue))
+    )): recipesFiltered;
 
     recipesDisplayed = recipesFiltered === undefined ? recipes : recipesFiltered;
 
